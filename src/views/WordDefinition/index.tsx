@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image, Text, ScrollView, View, TouchableOpacity } from 'react-native'
+import { Text, ScrollView } from 'react-native'
 import type { NavigationContainerRef, RouteProp } from '@react-navigation/native'
 
 import Layout from '../../components/Layout'
@@ -72,12 +72,11 @@ const WordDefinition = ({ navigation, route }: Props) => {
       setIsDataFetching(true)
       setHasError(false)
       const response = await fetch(
-        `https://api.dicolink.com/v1/mot/cheval/definitions?limite=200&api_key=${API_KEY}`
+        `https://api.dictionaryapi.dev/api/v2/entries/fr/${word}`
       )
       const data = await response.json()
 
-      console.log('response', data)
-      setWordDefinitions(data)
+      setWordDefinitions(data[0].meanings[0].definitions)
     } catch (error) {
       console.log('error', error)
       setHasError(true)
@@ -92,14 +91,14 @@ const WordDefinition = ({ navigation, route }: Props) => {
     
   
   if (isDataFetching || !wordDefinitions) return (
-    <Layout
-      backIcon={{
-        onPress: (): void => {},
-        type: 'back',
-      }}
-      pageTitle="Chargement..."
-    />
-  )
+      <Layout
+        backIcon={{
+          onPress: (): void => navigation.goBack(),
+          type: 'back',
+        }}
+        pageTitle="Chargement..."
+      />
+    )
 
   return (
     <Layout
@@ -117,15 +116,16 @@ const WordDefinition = ({ navigation, route }: Props) => {
         <Text style={styles.SubTitle}>
           Définitions pour “{word}” :
         </Text>
-        {defs.map((def, index) => {
+        {wordDefinitions.map((def, index) => {
           const definitionNumber = index >= 9 ? index + 1 : `0${index + 1}`
-
+          // console.lo<g('-------------------def', def)
           return (
             <Definition
-              key={def.id}
+              key={def.definition}
               def={def.definition}
               definitionNumber={definitionNumber}
-              source={def.source}
+              partOfSpeech="toto"
+              // partOfSpeech={def.partOfSpeech}
             />
           )
         })}

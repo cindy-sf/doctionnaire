@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     fontFamily: 'panamera-bold',
     fontSize: 14,
     marginBottom: 12,
+    textTransform: 'capitalize',
   },
   Definition: {
     color: '#A19F9F',

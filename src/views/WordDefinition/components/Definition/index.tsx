@@ -6,13 +6,14 @@ import styles from './styles'
 interface Props {
   def: string
   definitionNumber: number | string
-  source: string
+  partOfSpeech: string
 }
 
-const Definition = ({ def, definitionNumber, source }: Props) => (
+const Definition = ({ def, definitionNumber, partOfSpeech }: Props) => (
   <View>
     <Text style={styles.DefinitionSource}>
-      {definitionNumber}. {source}
+      {definitionNumber}
+      {/* {definitionNumber}. {partOfSpeech} */}
     </Text>
     <Text style={styles.Definition}>
       {def}
